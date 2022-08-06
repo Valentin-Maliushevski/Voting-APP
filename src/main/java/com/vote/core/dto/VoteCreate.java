@@ -11,6 +11,9 @@ public class VoteCreate {
         this.party = party;
     }
 
+    public VoteCreate() {
+    }
+
     public UUID getCandidate() {
         return candidate;
     }

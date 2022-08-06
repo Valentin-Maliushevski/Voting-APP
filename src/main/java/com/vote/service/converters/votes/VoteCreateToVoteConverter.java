@@ -4,6 +4,7 @@ import com.vote.core.dao.entity.Vote;
 import com.vote.core.dto.VoteCreate;
 import com.vote.service.UserHolder;
 import java.time.LocalDateTime;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
@@ -18,7 +19,8 @@ public class VoteCreateToVoteConverter implements Converter<VoteCreate, Vote> {
   public Vote convert(VoteCreate voteCreate) {
     Vote vote = new Vote();
 
-    vote.setUuid(holder.getUser().getUuid());
+    vote.setUuid(UUID.randomUUID());
+    vote.setUserUuid(holder.getUser().getUuid());
     vote.setDtCreate(LocalDateTime.now());
     vote.setCandidateUuid(voteCreate.getCandidate());
     vote.setPartyUuid(voteCreate.getParty());

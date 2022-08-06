@@ -8,11 +8,11 @@ import org.springframework.data.repository.query.Param;
 
 public interface IVoteRepository extends JpaRepository<Vote, UUID> {
 
-  @Query(value = "SELECT COUNT(*) FROM votes WHERE candidate_uuid = :uuid",
+  @Query(value = "SELECT COUNT(*) FROM t_voice WHERE candidate_uuid = :uuid",
       nativeQuery = true)
   int getCountOfCandidate( @Param("uuid") UUID candidateUuid);
 
-  @Query(value = "SELECT COUNT(*) FROM votes WHERE party_uuid = :uuid",
+  @Query(value = "SELECT COUNT(*) FROM t_voice WHERE party_uuid = :uuid",
       nativeQuery = true)
   int getCountOfParty( @Param("uuid") UUID partyUuid);
 
