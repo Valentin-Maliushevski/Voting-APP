@@ -39,28 +39,29 @@ public class GlobalHandler {
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   public List<ErrorDefinition> handle3(DataIntegrityViolationException e){
     SingleException singleException = new SingleException();
-    singleException.getDescriptions().add(new ErrorDefinition("Bad request in database"));
+    singleException.getDescriptions()
+        .add(new ErrorDefinition("Identification number or passport number is already exist"));
 
     return singleException.getDescriptions();
   }
 
-  @ExceptionHandler({HttpMessageNotReadableException.class, MethodArgumentTypeMismatchException.class})
-  @ResponseStatus(HttpStatus.BAD_REQUEST)
-  public List<ErrorDefinition> handle4(){
-    SingleException singleException = new SingleException();
-    singleException.getDescriptions().add(new ErrorDefinition
-        ("The request contains invalid data. Change the request and send it again"));
+//  @ExceptionHandler({HttpMessageNotReadableException.class, MethodArgumentTypeMismatchException.class})
+//  @ResponseStatus(HttpStatus.BAD_REQUEST)
+//  public List<ErrorDefinition> handle4(){
+//    SingleException singleException = new SingleException();
+//    singleException.getDescriptions().add(new ErrorDefinition
+//        ("The request contains invalid data. Change the request and send it again"));
+//
+//    return singleException.getDescriptions();
+//  }
 
-    return singleException.getDescriptions();
-  }
-
-  @ExceptionHandler
-  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-  public List<ErrorDefinition> handle(RuntimeException e){
-    SingleException singleException = new SingleException();
-    singleException.getDescriptions().add(new ErrorDefinition(
-        "The server was unable to process the request correctly. Please contact the administrator"));
-
-    return singleException.getDescriptions();
-  }
+//  @ExceptionHandler
+//  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+//  public List<ErrorDefinition> handle(RuntimeException e){
+//    SingleException singleException = new SingleException();
+//    singleException.getDescriptions().add(new ErrorDefinition(
+//        "The server was unable to process the request correctly. Please contact the administrator"));
+//
+//    return singleException.getDescriptions();
+//  }
 }

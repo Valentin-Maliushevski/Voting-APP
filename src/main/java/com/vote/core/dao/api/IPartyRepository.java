@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface IPartyDao extends JpaRepository<Party, UUID> {
+public interface IPartyRepository extends JpaRepository<Party, UUID> {
 
   Party findByUuid(UUID uuid);
 

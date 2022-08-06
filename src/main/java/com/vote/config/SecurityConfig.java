@@ -45,17 +45,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     // Set permissions on endpoints
     http.authorizeRequests()
         .antMatchers(HttpMethod.POST, "/voting/users/registration",
-            "/api/v1/users/login").permitAll()
+            "/voting/users/login").permitAll()
         .antMatchers(HttpMethod.GET, "/voting/users/me").authenticated()
         .antMatchers(HttpMethod.POST,"/voting/users").hasRole("ADMIN")
         .antMatchers(HttpMethod.GET,"/voting/users/**").hasRole("ADMIN")
         .antMatchers(HttpMethod.PUT,"/voting/users/**").hasRole("ADMIN")
 
-        .antMatchers(HttpMethod.POST, "/candidate").hasRole("ADMIN")
+        .antMatchers(HttpMethod.POST, "/candidate/registration").hasRole("ADMIN")
         .antMatchers(HttpMethod.PUT, "/candidate").hasRole("ADMIN")
         .antMatchers(HttpMethod.GET, "/candidate/**").permitAll()
 
-        .antMatchers(HttpMethod.POST, "/party").hasRole("ADMIN")
+        .antMatchers(HttpMethod.POST, "/party/registration").hasRole("ADMIN")
         .antMatchers(HttpMethod.PUT, "/party").hasRole("ADMIN")
         .antMatchers(HttpMethod.GET, "/party/**").permitAll()
 

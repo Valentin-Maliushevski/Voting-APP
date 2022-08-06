@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface IVoteDao extends JpaRepository<Vote, UUID> {
+public interface IVoteRepository extends JpaRepository<Vote, UUID> {
 
   @Query(value = "SELECT COUNT(*) FROM votes WHERE candidate_uuid = :uuid",
       nativeQuery = true)

@@ -1,7 +1,7 @@
 CREATE SCHEMA voices
     AUTHORIZATION postgres;
 
-CREATE TABLE voices.voice
+CREATE TABLE voices.t_voice
 (
     uuid uuid,
     user_uuid uuid,
@@ -11,5 +11,5 @@ CREATE TABLE voices.voice
     PRIMARY KEY (uuid)
 );
 
-ALTER TABLE IF EXISTS voices.voice
+ALTER TABLE IF EXISTS voices.t_voice
     OWNER to postgres;

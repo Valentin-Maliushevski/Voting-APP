@@ -2,7 +2,7 @@ spring:
   datasource:
     username: postgres
     password: postgres
-    url: jdbc:postgresql://${app.db.host}:${app.db.port}/vote
+    url: jdbc:postgresql://${app.db.host}:${app.db.port}/vote?currentSchema=voices
     driver-class-name: org.postgresql.Driver
 
 server:

@@ -1,5 +1,6 @@
 package com.vote.core.dao.entity;
 
+import java.io.Serializable;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 import javax.persistence.Column;
@@ -11,8 +12,9 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 
 @Entity
-@Table(name = "candidate", schema = "candidates")
-public class Candidate {
+@Table(name = "t_candidate", schema = "voices")
+public class Candidate implements Serializable {
+  private static final long serialVersionUID = 1L;
 
   @Id
   private UUID uuid;

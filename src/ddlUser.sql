@@ -4,11 +4,7 @@ CREATE DATABASE vote
     ENCODING = 'UTF8'
     CONNECTION LIMIT = -1;
 
-
-CREATE SCHEMA users
-    AUTHORIZATION postgres;
-
-CREATE TABLE users.t_user
+CREATE TABLE voices.t_user
 (
     uuid uuid,
     dt_create timestamp without time zone,
@@ -25,25 +21,25 @@ CREATE TABLE users.t_user
     CONSTRAINT passport_number UNIQUE (passport_number)
 );
 
-ALTER TABLE IF EXISTS users.t_user
+ALTER TABLE IF EXISTS voices.t_user
     OWNER to postgres;
 
-CREATE TABLE users.t_role
+CREATE TABLE voices.t_role
 (
     id bigint,
     name character varying
 );
 
-ALTER TABLE IF EXISTS users.t_role
+ALTER TABLE IF EXISTS voices.t_role
     OWNER to postgres;
 
-CREATE TABLE users.t_user_roles
+CREATE TABLE voices.t_user_roles
 (
     user_uuid uuid,
     role_id integer
 );
 
-ALTER TABLE IF EXISTS users.t_user_roles
+ALTER TABLE IF EXISTS voices.t_user_roles
     OWNER to postgres;
 
 

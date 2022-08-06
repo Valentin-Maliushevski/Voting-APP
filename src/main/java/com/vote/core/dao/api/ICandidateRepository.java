@@ -7,7 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ICandidateDao extends JpaRepository<Candidate, Long> {
+public interface ICandidateRepository extends JpaRepository<Candidate, UUID> {
+
+  Candidate save(Candidate candidate);
 
   Candidate findByUuid(UUID uuid);
 

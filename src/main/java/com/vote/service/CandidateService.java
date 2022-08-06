@@ -1,6 +1,6 @@
 package com.vote.service;
 
-import com.vote.core.dao.api.ICandidateDao;
+import com.vote.core.dao.api.ICandidateRepository;
 import com.vote.core.dao.entity.Candidate;
 import com.vote.core.dto.candidate.CandidateCreateUpdate;
 import com.vote.core.dto.candidate.CandidateRead;
@@ -27,7 +27,7 @@ import org.springframework.validation.annotation.Validated;
 public class CandidateService implements ICandidateService {
 
     @Autowired
-    ICandidateDao candidateDao;
+    ICandidateRepository candidateRepository;
     @Autowired
     CandidatePageToCustomPageConverter pageToCustomPageConverter;
     @Autowired
@@ -40,13 +40,15 @@ public class CandidateService implements ICandidateService {
     UserHolder holder;
 
     @Override
+    @Transactional
     public void add(@Valid CandidateCreateUpdate candidateCreate) {
-        candidateDao.save(candidateCreateToCandidateConverter.convert(candidateCreate));
+       candidateRepository.save(candidateCreateToCandidateConverter.convert(candidateCreate));
     }
 
     @Override
+    @Transactional
     public void update(@Valid CandidateCreateUpdate dto, UUID uuid, Long lastKnowUpdate) {
-        Candidate candidate = candidateDao.findByUuid(uuid);
+        Candidate candidate = candidateRepository.findByUuid(uuid);
 
         if(candidate == null) {
             throw new IllegalArgumentException("Candidate with such uuid is not found");
@@ -59,7 +61,7 @@ public class CandidateService implements ICandidateService {
         }
 
         if(holder.hasRoleAdmin()) {
-            candidateDao.save(candidateUpdateToCandidateConverter.convert(dto, candidate));
+            candidateRepository.save(candidateUpdateToCandidateConverter.convert(dto, candidate));
         } else {
             throw new IllegalArgumentException("User is not Admin");
         }
@@ -68,13 +70,13 @@ public class CandidateService implements ICandidateService {
     @Override
     public CustomPage<CandidateRead> getCustomPage(int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("title"));
-        Page page1 = candidateDao.findAll(pageable);
+        Page page1 = candidateRepository.findAll(pageable);
         return pageToCustomPageConverter.convert(page1);
     }
 
     @Override
     public CandidateRead getCandidateByUuid(UUID uuid) {
-        Candidate candidate = candidateDao.findByUuid(uuid);
+        Candidate candidate = candidateRepository.findByUuid(uuid);
         if(candidate == null) {
             throw new IllegalArgumentException("Candidate with such uuid is not found");
         }

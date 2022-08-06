@@ -1,6 +1,6 @@
 package com.vote.service;
 
-import com.vote.core.dao.api.IPartyDao;
+import com.vote.core.dao.api.IPartyRepository;
 import com.vote.core.dao.entity.Party;
 import com.vote.core.dto.CustomPage;
 import com.vote.core.dto.party.PartyCreateUpdate;
@@ -26,7 +26,7 @@ import org.springframework.validation.annotation.Validated;
 public class PartyService implements IPartyService {
 
     @Autowired
-    IPartyDao partyDao;
+    IPartyRepository partyRepository;
     @Autowired
     PartyPageToCustomPageConverter partyPageToCustomPageConverter;
     @Autowired
@@ -39,13 +39,15 @@ public class PartyService implements IPartyService {
     UserHolder holder;
 
     @Override
+    @Transactional
     public void add(PartyCreateUpdate partyCreateUpdate) {
-        partyDao.save(partyCreateToPartyConverter.convert(partyCreateUpdate));
+        partyRepository.save(partyCreateToPartyConverter.convert(partyCreateUpdate));
     }
 
     @Override
+    @Transactional
     public void update(PartyCreateUpdate dto, UUID uuid, Long lastKnowUpdate) {
-        Party party = partyDao.findByUuid(uuid);
+        Party party = partyRepository.findByUuid(uuid);
 
         if(party == null) {
             throw new IllegalArgumentException("Party with such uuid is not found");
@@ -58,7 +60,7 @@ public class PartyService implements IPartyService {
         }
 
         if(holder.hasRoleAdmin()) {
-            partyDao.save(partyUpdateToPartyConverter.convert(dto, party));
+            partyRepository.save(partyUpdateToPartyConverter.convert(dto, party));
         } else {
             throw new IllegalArgumentException("User is not Admin");
         }
@@ -67,13 +69,13 @@ public class PartyService implements IPartyService {
     @Override
     public CustomPage<PartyRead> getCustomPage(int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("title"));
-        Page page1 = partyDao.findAll(pageable);
+        Page page1 = partyRepository.findAll(pageable);
         return partyPageToCustomPageConverter.convert(page1);
     }
 
     @Override
     public PartyRead getPartyByUuid(UUID uuid) {
-        Party party = partyDao.findByUuid(uuid);
+        Party party = partyRepository.findByUuid(uuid);
         if(party == null) {
             throw new IllegalArgumentException("Party with such uuid is not found");
         }

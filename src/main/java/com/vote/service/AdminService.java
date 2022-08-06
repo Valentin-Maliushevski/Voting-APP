@@ -75,7 +75,7 @@ public class AdminService implements IAdminService {
 
   @Override
   public CustomPage<UserWithoutPassword> getCustomPage(int page, int size) {
-    Pageable pageable = PageRequest.of(page, size, Sort.by("nick"));
+    Pageable pageable = PageRequest.of(page, size);
 
     Page page1 = repository.findAll(pageable);
 

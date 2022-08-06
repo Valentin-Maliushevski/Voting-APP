@@ -19,7 +19,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
-@Table( name = "t_user", schema = "users")
+@Table( name = "t_user", schema = "voices")
 public class User implements UserDetails {
 
   @Id
@@ -36,7 +36,7 @@ public class User implements UserDetails {
   private String identificationNumber;
 
   @ManyToMany(fetch = FetchType.EAGER)
-  @JoinTable(schema = "users", name = "t_user_roles",
+  @JoinTable(schema = "voices", name = "t_user_roles",
       joinColumns = { @JoinColumn(name = "user_uuid", referencedColumnName = "uuid")},
       inverseJoinColumns = { @JoinColumn(name = "role_id", referencedColumnName = "id")})
 

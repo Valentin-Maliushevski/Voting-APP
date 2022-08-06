@@ -1,8 +1,8 @@
 package com.vote.service;
 
-import com.vote.core.dao.api.ICandidateDao;
-import com.vote.core.dao.api.IPartyDao;
-import com.vote.core.dao.api.IVoteDao;
+import com.vote.core.dao.api.ICandidateRepository;
+import com.vote.core.dao.api.IPartyRepository;
+import com.vote.core.dao.api.IVoteRepository;
 import com.vote.core.dao.entity.Candidate;
 import com.vote.core.dao.entity.CandidateOrPartyStatus;
 import com.vote.core.dao.entity.Party;
@@ -24,11 +24,11 @@ import org.springframework.stereotype.Service;
 public class VoteService implements IVoteService {
 
   @Autowired
-  IVoteDao voteDao;
+  IVoteRepository voteRepository;
   @Autowired
-  ICandidateDao candidateDao;
+  ICandidateRepository candidateRepository;
   @Autowired
-  IPartyDao partyDao;
+  IPartyRepository partyRepository;
   @Autowired
   UserHolder holder;
   @Autowired
@@ -36,13 +36,13 @@ public class VoteService implements IVoteService {
 
   @Override
   public void check(VoteCreate voteCreate) {
-    if(voteDao.findByUserUuid(holder.getUser().getUuid()) != null) {
+    if(voteRepository.findByUserUuid(holder.getUser().getUuid()) != null) {
       throw new IllegalArgumentException("User has already voted");
     }
-    if(candidateDao.findByUuidAndStatus(voteCreate.getCandidate(), CandidateOrPartyStatus.ACTIVE) == null) {
+    if(candidateRepository.findByUuidAndStatus(voteCreate.getCandidate(), CandidateOrPartyStatus.ACTIVE) == null) {
       throw new IllegalArgumentException("Candidate is not found or not active");
     }
-    if(partyDao.findByUuidAndStatus(voteCreate.getParty(), CandidateOrPartyStatus.ACTIVE) == null) {
+    if(partyRepository.findByUuidAndStatus(voteCreate.getParty(), CandidateOrPartyStatus.ACTIVE) == null) {
       throw new IllegalArgumentException("Party is not found or not active");
     }
   }
@@ -50,13 +50,13 @@ public class VoteService implements IVoteService {
   @Override
   public void add(VoteCreate voteCreate) {
     check(voteCreate);
-    voteDao.save(voteCreateToVoteConverter.convert(voteCreate));
+    voteRepository.save(voteCreateToVoteConverter.convert(voteCreate));
   }
 
   @Override
   public CustomPage<Vote> getCustomPage(int page, int size) {
     Pageable pageable = PageRequest.of(page, size);
-    Page page1 = partyDao.findAll(pageable);
+    Page page1 = partyRepository.findAll(pageable);
 
     CustomPage<Vote> newPage = new CustomPage<>();
     newPage.setNumber(page1.getNumber());
@@ -73,7 +73,7 @@ public class VoteService implements IVoteService {
 
   @Override
   public Vote getVoteByUuid(UUID uuid) {
-    Vote vote = voteDao.findByUuid(uuid);
+    Vote vote = voteRepository.findByUuid(uuid);
     if(vote == null) {
       throw new IllegalArgumentException("Vote with such uuid is not found");
     }
@@ -84,8 +84,8 @@ public class VoteService implements IVoteService {
   public Map<String, Integer> getCandidateResult() {
     Map<String, Integer> candidateResult = new HashMap<>();
 
-    for(Candidate candidate : candidateDao.findAll()) {
-      int result = voteDao.getCountOfCandidate(candidate.getUuid());
+    for(Candidate candidate : candidateRepository.findAll()) {
+      int result = voteRepository.getCountOfCandidate(candidate.getUuid());
       candidateResult.put(candidate.getTitle(), result);
     }
     return candidateResult;
@@ -95,8 +95,8 @@ public class VoteService implements IVoteService {
   public Map<String, Integer> getPartyResult() {
     Map<String, Integer> partyResult = new HashMap<>();
 
-    for(Party party : partyDao.findAll()) {
-      int result = voteDao.getCountOfParty(party.getUuid());
+    for(Party party : partyRepository.findAll()) {
+      int result = voteRepository.getCountOfParty(party.getUuid());
       partyResult.put(party.getTitle(), result);
     }
     return partyResult;

@@ -6,7 +6,7 @@ import javax.persistence.Table;
 import org.springframework.security.core.GrantedAuthority;
 
 @Entity
-@Table(name = "t_role", schema = "users")
+@Table(name = "t_role", schema = "voices")
 public class Role implements GrantedAuthority {
 
   @Id
