@@ -1,0 +1,1 @@
+docker save -o voting.dump voting_VotingService:1.0.0 voting_pgadmin:1.0.0 voting_postgresql:1.0.0 voting_proxy:1.0.0

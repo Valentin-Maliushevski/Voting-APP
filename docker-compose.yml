@@ -1,0 +1,39 @@
+version: '3.5'
+services:
+  db:
+    build: postgresql
+    image: voting_postgresql:1.0.0
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+    networks:
+      - voting_ntwrk
+  pgadmin:
+    build: pgadmin
+    image: voting_pgadmin:1.0.0
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - "82:80"
+    networks:
+      - voting_ntwrk
+
+  VotingService:
+    build: VotingService
+    image: voting-service:1.0.0
+    networks:
+      - voting_ntwrk
+
+  proxy:
+    build: proxy
+    image: voting_proxy:1.0.0
+    ports:
+      - "80:80"
+    networks:
+      - voting_ntwrk
+networks:
+  voting_ntwrk:
+    name: voting_ntwrk

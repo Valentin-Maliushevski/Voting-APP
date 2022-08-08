@@ -25,7 +25,7 @@ public class PartyController {
   @Autowired
   IPartyService partyService;
 
-  @GetMapping("/page")
+  @GetMapping("/api/v1/page")
   public ResponseEntity<CustomPage<PartyRead>> findPaginated(@RequestParam(name = "page", defaultValue = "0") int page,
       @RequestParam(name = "size", defaultValue = "3") int size) {
     return new ResponseEntity<>(partyService.getCustomPage(page, size), HttpStatus.OK);
